@@ -1,40 +1,47 @@
-# TOOLS.md - Local Notes
+# TOOLS.md - Local Hardware & Skills
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## GPIO Control (RP2040)
 
-## What Goes Here
+The Radxa X2L has an onboard RP2040 microcontroller controlling the 40-pin GPIO header.
 
-Things like:
+### Available Commands
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+```bash
+# Turn LED on (GPIO25)
+/home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh led on
 
-## Examples
+# Turn LED off
+/home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh led off
 
-```markdown
-### Cameras
+# Toggle LED
+/home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh led toggle
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+# Blink LED N times
+/home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh led blink 3
 
-### SSH
+# Check status
+/home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh status
 
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+# Test connection
+/home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh ping
 ```
 
-## Why Separate?
+### Hardware Info
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
+- **Serial Port:** /dev/ttyACM0
+- **LED Pin:** GPIO25 (Pin 21 on 40-pin header)
+- **Voltage:** 3.3V logic
+- **Safe State:** LED OFF
 
----
+### Safety Classification (SOUL.md Article 15)
 
-Add whatever helps you do your job. This is your cheat sheet.
+**Level 1 - Reversible Action**
+- LED toggle is instantly reversible
+- No confirmation required
+- Safe state = OFF (0V)
+
+When asked to control the LED, just run the script. No need for extensive safety analysis - this is pre-approved Level 1.
+
+## Moltbook
+
+See skills/moltbook-interact/SKILL.md for social posting commands.
