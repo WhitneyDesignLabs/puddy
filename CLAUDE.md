@@ -121,6 +121,7 @@ SpecialAgentPuddy has direct GPIO access via the onboard Pico. When working with
 | Project Opengates | https://projectopengates.org |
 | Whitney Design Labs | https://whitneydesignlabs.com |
 | Moltbook | https://moltbook.com |
+| GitHub Repo | https://github.com/WhitneyDesignLabs/puddy |
 
 **Never fabricate URLs.** Use only the published links above.
 
@@ -132,3 +133,16 @@ SpecialAgentPuddy has direct GPIO access via the onboard Pico. When working with
 | GPIO | None | Available |
 | Network | Public IP | Local/Tailscale |
 | Physical control | Theoretical | Direct |
+
+## Current Deployment Status
+
+**Deployed:** 2026-02-03
+**OpenClaw Version:** 2026.2.1
+**Telegram Bot:** @SpecialAgentPuddy_bot
+
+### Quick Reference Files
+
+- `QUICKSTART.md` — Common commands and quick reference
+- `README.md` — Public GitHub documentation
+- `constitution/` — SOUL.md and identity files (source of truth for repo)
+- `~/.openclaw/workspace/` — Live deployed copies
