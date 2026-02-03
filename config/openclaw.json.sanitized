@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.1.30",
+    "lastTouchedAt": "2026-02-03T01:32:50.431Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-02-01T23:38:47.111Z",
+    "lastRunVersion": "2026.1.30",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openrouter/deepseek/deepseek-v3.2",
+        "fallbacks": [
+          "anthropic/claude-sonnet-4-5-20250929"
+        ]
+      },
+      "models": {
+        "anthropic/claude-3-5-haiku-20241022": {
+          "alias": "haiku"
+        },
+        "openrouter/deepseek/deepseek-chat": {},
+        "openrouter/deepseek/deepseek-reasoner": {},
+        "anthropic/claude-sonnet-4-5-20250929": {}
+      },
+      "bootstrapMaxChars": 30000,
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto"
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "botToken": "YOUR_TELEGRAM_BOT_TOKEN_HERE",
+      "groupPolicy": "allowlist",
+      "streamMode": "partial"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "auth": {
+      "token": "YOUR_GATEWAY_TOKEN_HERE"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "telegram": {
+        "enabled": true
+      }
+    }
+  }
+}
