@@ -47,6 +47,7 @@ Key principles: Truth, Non-weaponization, Irreversibility Doctrine, Safety Hiera
 │   ├── USER.md                # Human operator info
 │   ├── memory/                # Agent memory files
 │   └── skills/
+│       ├── gpio-control/      # GPIO/sensor control skill
 │       └── moltbook-interact/ # Moltbook social skill
 ├── cron/jobs.json             # Scheduled tasks
 └── credentials/               # API credentials
@@ -105,13 +106,29 @@ Environment="OPENROUTER_API_KEY=..."
 
 ## GPIO / Physical Systems
 
-SpecialAgentPuddy has direct GPIO access via the onboard Pico. When working with physical systems:
+SpecialAgentPuddy has direct GPIO access via the onboard Pico (RP2040).
 
-- SOUL.md Article 12: Safety Hierarchy applies
-- SOUL.md Article 14: Know the safe state for every system
-- SOUL.md Article 15: Authorization levels for physical actions
-- Implement hardware interlocks and emergency stops
-- Test with power disconnected first
+### Current Capabilities (Firmware v1.1.0)
+
+| Function | Pin | Command |
+|----------|-----|---------|
+| LED control | GPIO25 | `gpio.sh led on/off/toggle/blink` |
+| DHT11 temp/humidity | GPIO28 | `gpio.sh sensor read` |
+
+### Skill Location
+```bash
+~/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh
+```
+
+### Serial Communication
+- **Port:** `/dev/ttyACM0`
+- **Baud:** 115200
+- **Protocol:** Text commands, `OK:`/`ERR:` responses
+
+### SOUL.md Compliance
+- Article 12: Safety Hierarchy applies
+- Article 14: Know the safe state for every system (LED=OFF, sensor=no-read)
+- Article 15: All current actions are Level 1 (reversible, no confirmation needed)
 
 ## Key URLs
 
