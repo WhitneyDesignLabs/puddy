@@ -1,9 +1,11 @@
 #!/bin/bash
 # gpio.sh - GPIO control script for SpecialAgentPuddy
+# Location: /home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh
 # Usage: gpio.sh <command> [args]
 #
 # Commands:
 #   led on|off|toggle|blink [N]
+#   sensor read
 #   status
 #   ping
 #   raw <COMMAND>
@@ -54,6 +56,18 @@ case "${1,,}" in
                 ;;
         esac
         ;;
+    sensor|dht)
+        case "${2,,}" in
+            read|"")
+                send_command "DHT_READ"
+                ;;
+            *)
+                echo "ERR:UNKNOWN_SENSOR_COMMAND:$2"
+                echo "Usage: gpio.sh sensor read"
+                exit 1
+                ;;
+        esac
+        ;;
     status)
         send_command "STATUS"
         ;;
@@ -83,6 +97,7 @@ case "${1,,}" in
         echo "  led off         Turn LED off"
         echo "  led toggle      Toggle LED"
         echo "  led blink [N]   Blink N times (default 3)"
+        echo "  sensor read     Read DHT11 temperature/humidity"
         echo "  status          Get LED status"
         echo "  ping            Test connection"
         echo "  version         Get firmware version"

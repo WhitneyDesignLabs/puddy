@@ -6,12 +6,22 @@ import machine
 import sys
 import select
 import time
+import dht
+import json
 
 # Onboard LED (GPIO25 on standard Pico)
 led = machine.Pin(25, machine.Pin.OUT)
 
+# DHT11 sensor on GPIO28
+dht_pin = machine.Pin(28)
+dht_sensor = dht.DHT11(dht_pin)
+
+# Track last DHT read time (needs 1-2s between reads)
+last_dht_read = 0
+DHT_MIN_INTERVAL = 2  # seconds
+
 # Version info
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 AGENT = "SpecialAgentPuddy"
 
 def blink(times=3, delay=0.2):
@@ -62,8 +72,31 @@ def handle_command(cmd):
     elif cmd == "PING":
         return "OK:PONG"
 
+    elif cmd == "DHT_READ":
+        global last_dht_read
+        now = time.time()
+        # Enforce minimum interval between reads
+        if now - last_dht_read < DHT_MIN_INTERVAL:
+            time.sleep(DHT_MIN_INTERVAL - (now - last_dht_read))
+        try:
+            dht_sensor.measure()
+            last_dht_read = time.time()
+            temp_c = dht_sensor.temperature()
+            humidity = dht_sensor.humidity()
+            temp_f = temp_c * 9 / 5 + 32
+            result = {
+                "temp_c": temp_c,
+                "temp_f": round(temp_f, 1),
+                "humidity": humidity
+            }
+            return "OK:DHT:" + json.dumps(result)
+        except OSError as e:
+            return "ERR:DHT_READ_FAILED:sensor_error"
+        except Exception as e:
+            return f"ERR:DHT_READ_FAILED:{e}"
+
     elif cmd == "HELP":
-        return "OK:COMMANDS=LED_ON,LED_OFF,LED_TOGGLE,BLINK,BLINK:N,STATUS,VERSION,WHOAMI,PING,HELP"
+        return "OK:COMMANDS=LED_ON,LED_OFF,LED_TOGGLE,BLINK,BLINK:N,DHT_READ,STATUS,VERSION,WHOAMI,PING,HELP"
 
     elif cmd == "":
         return None  # Ignore empty lines

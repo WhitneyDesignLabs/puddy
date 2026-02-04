@@ -1,6 +1,6 @@
 ---
 name: gpio
-description: Control GPIO pins on the RP2040 microcontroller. Toggle LED, blink patterns, check status.
+description: Control GPIO pins and read sensors on the RP2040 microcontroller. Toggle LED, blink patterns, read temperature/humidity from DHT11.
 ---
 
 # GPIO Control Skill
@@ -47,12 +47,26 @@ Control the RP2040 GPIO pins on the Radxa X2L via serial commands.
 /home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh ping
 ```
 
+### Read Temperature & Humidity (DHT11)
+```bash
+/home/scott/.openclaw/workspace/skills/gpio-control/scripts/gpio.sh sensor read
+```
+- Returns JSON: `{"temp_c": 25, "temp_f": 77.0, "humidity": 45}`
+- Sensor needs 2 seconds between reads (enforced by firmware)
+- Use this when user asks about temperature, humidity, or environmental conditions
+
 ## Hardware Info
 
-- **Pin:** GPIO25 (Pin 21 on 40-pin header)
+### LED
+- **Pin:** GPIO25 (onboard LED)
 - **Voltage:** 3.3V logic
-- **Current state tracking:** Maintained by RP2040 firmware
 - **Safe state:** OFF (0V)
+
+### DHT11 Temperature/Humidity Sensor
+- **Pin:** GPIO28
+- **Wiring:** VCC=3.3V, GND=GND, Data=GPIO28
+- **Read interval:** Minimum 2 seconds between reads
+- **Accuracy:** ±2°C temperature, ±5% humidity
 
 ## Safety (SOUL.md Compliance)
 
